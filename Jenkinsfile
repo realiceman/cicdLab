@@ -5,7 +5,7 @@ pipeline{
         maven 'maven'
     }
     environment {
-        artifactId = readMavenPom().getArtficatId()
+        artifactId = readMavenPom().getArtifactId()
         version    = readMavenPom().getVersion()
     }
 
@@ -43,8 +43,8 @@ pipeline{
          // Stage 4  : Print envs infos
         stage ('Print Env Variables'){
             steps {
-                echo "ArtifactId is '${artifactId}'"
-                echo "Version is '${version}'"
+                echo "ArtifactId is ${artifactId}"
+                echo "Version is ${version}"
             }
         }
 
