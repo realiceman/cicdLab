@@ -32,12 +32,12 @@ pipeline{
         // Stage 3: Publish to Nexus
         stage ('Publish to Nexus'){
             steps {
-                nexusArtifactUploader artifacts: [[artifactId: 'YoussefHarkati', classifier: '', 
-                                                   file: 'target/YoussefHarkati-0.0.4-SNAPSHOT.war', type: 'war']], 
+                nexusArtifactUploader artifacts: [[artifactId: "${artifactId}", classifier: '', 
+                                                   file: "target/${artifactId}-${version}.war", type: 'war']], 
                                                    credentialsId: 'f3a99197-b03a-4ea2-a17e-313e75d26ab0', 
                                                    groupId: 'com.youssefh', nexusUrl: '172.20.10.26:8081',
                                                     nexusVersion: 'nexus3', protocol: 'http', 
-                                                   repository: 'YoussefHarkati-SNAPSHOT', version: '0.0.4-SNAPSHOT'
+                                                   repository: 'YoussefHarkati-SNAPSHOT', version: "${version}"
             }
         }
 
