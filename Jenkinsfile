@@ -54,8 +54,29 @@ pipeline{
             }
         }
 
-        // Stage   : Print envs infos
+        // Stage 5  : Deploy war to tomcat
+        /*
         stage ('Deploying war to tomcat from ansible controller'){
+            steps {
+                echo "Deploying..."
+                sshPublisher(publishers: 
+                            [sshPublisherDesc(
+                                configName: 'Ansible_Controller', 
+                                transfers: [sshTransfer(
+                                              cleanRemote: false, 
+                                              execCommand: 'ansible-playbook /opt/playbooks/downloadanddeploy.yaml -i /opt/playbooks/hosts', 
+                                              execTimeout: 120000
+                                            )], 
+                                usePromotionTimestamp: false, 
+                                useWorkspaceInPromotion: false, 
+                                verbose: false)
+                            ])
+            }
+        }
+        */
+
+        // Stage 6  : Deploy war docker
+        stage ('Deploying war to Docker'){
             steps {
                 echo "Deploying..."
                 sshPublisher(publishers: 
