@@ -54,6 +54,16 @@ pipeline{
             }
         }
 
+         // Stage 5  : Print envs infos
+        stage ('Sonarqube Analysis'){
+            steps {
+                echo 'Source code sent to Sonarqube ...'
+                withSonarQubeEnv('sonarqube'){
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+
         // Stage 5  : Deploy war to tomcat
         /*
         stage ('Deploying war to tomcat from ansible controller'){
@@ -76,23 +86,23 @@ pipeline{
         */
 
         // Stage 6  : Deploy war docker
-        stage ('Deploying war to Docker'){
-            steps {
-                echo "Deploying..."
-                sshPublisher(publishers: 
-                            [sshPublisherDesc(
-                                configName: 'Ansible_Controller', 
-                                transfers: [sshTransfer(
-                                              cleanRemote: false, 
-                                              execCommand: 'ansible-playbook /opt/playbooks/downloadanddeploy.yaml -i /opt/playbooks/hosts', 
-                                              execTimeout: 120000
-                                            )], 
-                                usePromotionTimestamp: false, 
-                                useWorkspaceInPromotion: false, 
-                                verbose: false)
-                            ])
-            }
-        }
+        // stage ('Deploying war to Docker'){
+        //     steps {
+        //         echo "Deploying..."
+        //         sshPublisher(publishers: 
+        //                     [sshPublisherDesc(
+        //                         configName: 'Ansible_Controller', 
+        //                         transfers: [sshTransfer(
+        //                                       cleanRemote: false, 
+        //                                       execCommand: 'ansible-playbook /opt/playbooks/downloadanddeploy.yaml -i /opt/playbooks/hosts', 
+        //                                       execTimeout: 120000
+        //                                     )], 
+        //                         usePromotionTimestamp: false, 
+        //                         useWorkspaceInPromotion: false, 
+        //                         verbose: false)
+        //                     ])
+        //     }
+        // }
 
         // Stage4 : Publish the source code to Sonarqube
         // stage ('Sonarqube Analysis'){
